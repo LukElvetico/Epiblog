@@ -43,7 +43,7 @@ function SinglePost({ isAuthenticated }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:4000/api/v1/recipes/${postId}/comments`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/recipes/${postId}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
