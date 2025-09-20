@@ -13,15 +13,14 @@ async function authentication(request, response, next) {
     const jwtToken = parts[1];
 
     try {
-        // verificare il token jwt
+        // verifica token jwt
         const payload = await verifyJWT(jwtToken);
-        // se va bene
-        // recuperiamo l'utente dal db
+        // recupero utente DB
         console.log(payload);
         const authUser = await User.findById(payload.userId);
         if (!authUser) throw new Error('No user');
 
-        // aggiungo l'utente alla request authUser
+        // aggiunta utente alla request authUser
         request.authUser = authUser;
         next();
     } catch {
