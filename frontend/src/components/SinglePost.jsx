@@ -16,7 +16,7 @@ function SinglePost({ isAuthenticated }) {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch(`http://localhost:4000/api/v1/recipes/${postId}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/recipes/${postId}`);
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.message || 'Impossibile caricare il post.');
