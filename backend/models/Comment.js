@@ -12,7 +12,7 @@ const commentSchema = new Schema(
         },
     },
     {
-        timestamps: true, // aggiunge createdAt e updatedAt
+        timestamps: true, // data
     }
 );
 
