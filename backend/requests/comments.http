@@ -1,0 +1,28 @@
+# per usare questi file serve l'estensione REST Client
+@base=http://localhost:4000/api/v1
+
+###
+GET {{base}}/recipes/68bf32dc3a9fced01286e470/comments
+
+###
+GET {{base}}/recipes/68bf32dc3a9fced01286e470/comments/68bf32dc3a9fced01286e471
+
+###
+POST {{base}}/recipes/68bf32dc3a9fced01286e470/comments/
+Content-Type: application/json
+
+{
+    "text": "Lasciaci in pace",
+    "user": "68ba05479bfc5d83abdfcf9e"
+}
+
+###
+PATCH {{base}}/recipes/68bf32dc3a9fced01286e470/comments/68bf32dc3a9fced01286e471
+Content-Type: application/json
+
+{
+    "text": "Buuuuu"
+}
+
+###
+DELETE {{base}}/recipes/68bf32dc3a9fced01286e470/comments/68bf32dc3a9fced01286e471

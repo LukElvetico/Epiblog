@@ -1,0 +1,72 @@
+# per usare questi file serve l'estensione REST Client
+@base=http://localhost:4000/api/v1
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMzMTExZGYwODZhNTFhZTIwMWJiMzkiLCJpYXQiOjE3NTc2MTg1NDMsImV4cCI6MTc2MDIxMDU0M30.B-LNdjU9BxXtKcG2PWjqjOZ4j4wcoE4ddOkWvAbMoGY
+
+###
+GET {{base}}/recipes
+
+###
+GET {{base}}/recipes/68bf2bf96abc05ed6e17b400
+
+### unauthorized
+POST {{base}}/recipes
+Content-Type: application/json
+
+{
+    "name": "Pizza margherita",
+    "cookingTime": 10,
+    "tags": [
+        {
+            "name": "Bontà",
+            "weight": 90
+        },
+        {
+            "name": "Dieta",
+            "weight": 50
+        }
+    ],
+    "comments": [
+        {
+            "text": "Ciao a tutti",
+            "user": "68ba05479bfc5d83abdfcfa1"
+        }
+    ]
+}
+
+### authorized
+POST {{base}}/recipes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Pizza margherita",
+    "cookingTime": 10,
+    "tags": [
+        {
+            "name": "Bontà",
+            "weight": 90
+        },
+        {
+            "name": "Dieta",
+            "weight": 50
+        }
+    ],
+    "comments": [
+        {
+            "text": "Ciao a tutti",
+            "user": "68ba05479bfc5d83abdfcfa1"
+        }
+    ]
+}
+
+###
+PUT {{base}}/recipes/68bf27c2008639ef8d1f66d7
+Content-Type: application/json
+
+{
+    "name": "Pizza modificata",
+    "cookingTime": 7
+}
+
+###
+DELETE {{base}}/recipes/68b0b54c2d143c1062d00b18

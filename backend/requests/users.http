@@ -1,0 +1,50 @@
+# per usare questi file serve l'estensione REST Client
+@base=http://localhost:4000/api/v1
+
+###
+GET http://localhost:4000/api
+
+###
+GET {{base}}/users
+
+###
+GET {{base}}/users?page=1&perPage=10
+
+###
+GET {{base}}/users?search=gigi
+
+###
+GET {{base}}/users?search=gigi&page=2
+
+###
+GET {{base}}/users/68b0b54c2d143c1062d00b18
+
+###
+GET {{base}}/asdfdsadsfas
+
+### TEST ON POSTMAN WITH multipart/form-data (for image upload)
+### or here with application/json (no image upload)
+POST {{base}}/users
+Content-Type: application/json
+
+{
+    "firstName": "User",
+    "lastName": "Test",
+    "email": "test@asdf.asdf"
+}
+
+###
+PUT {{base}}/users/68b0b54c2d143c1062d00b18
+Content-Type: application/json
+
+{
+    "lastName": "Modified",
+    "email": "modified@asdf.asdf"
+}
+
+###
+DELETE {{base}}/users/68b0b54c2d143c1062d00b18
+
+### TEST ON POSTMAN
+PATCH {{base}}/users/68b0b54c2d143c1062d00b18/profile
+Content-Type: multipart/form-data

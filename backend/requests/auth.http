@@ -1,0 +1,21 @@
+# per usare questi file serve l'estensione REST Client
+@base=http://localhost:4000/api/v1
+
+###
+POST {{base}}/register
+Content-Type: application/json
+
+{
+    "firstName": "Giovedino",
+    "email": "vcxzqwer@asdf.asdf",
+    "password": "adsf"
+}
+
+###
+POST {{base}}/login
+Content-Type: application/json
+
+{
+    "email": "vcxzqwer@asdf.asdf",
+    "password": "adsf"
+}
