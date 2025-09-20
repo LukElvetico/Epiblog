@@ -17,7 +17,7 @@ function Account({ onLogout }) {
         return;
       }
       try {
-        const response = await fetch('http://localhost:4000/api/v1/users/me', {
+        const response = await fetch('${import.meta.env.VITE_API_URL}/api/v1/users/me', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
