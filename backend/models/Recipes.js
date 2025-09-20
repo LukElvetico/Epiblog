@@ -37,7 +37,7 @@ const recipeSchema = new Schema(
         tags: [tagSchema],
     },
     {
-        timestamps: true, // Aggiunto: abilita i campi createdAt e updatedAt
+        timestamps: true, // per la data
     }
 );
 
