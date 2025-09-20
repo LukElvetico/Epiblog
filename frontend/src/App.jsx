@@ -49,23 +49,22 @@ function App() {
     };
 
     return (
-        <Router>
-            <div className="d-flex flex-column min-vh-100"> 
+        <Router>   
+            <div className="d-flex flex-column min-vh-100">     
+               <Header isAuthenticated={isAuthenticated} onLogout={onLogout} />
                 
-            <Header isAuthenticated={isAuthenticated} onLogout={onLogout} />
-                  <main className="flex-grow-1">
-            <Routes>
-                <Route path="/" element={<HomePage posts={posts} />} />
-                <Route path="/login" element={<AuthForm onLoginSuccess={onLoginSuccess} />} />
-                <Route path="/register" element={<AuthForm onLoginSuccess={onLoginSuccess} />} />
-                <Route path="/my-posts" element={<MyPostsPage onPostCreated={fetchPosts} />} />
-                <Route path="/account" element={<AccountPage onLogout={onLogout} />} />
-                <Route path="/posts/:postId" element={<SinglePost isAuthenticated={isAuthenticated} />} />
-            </Routes>
+                <main className="flex-grow-1">
+                    <Routes>
+                       <Route path="/" element={<HomePage posts={posts} />} />
+                       <Route path="/login" element={<AuthForm onLoginSuccess={onLoginSuccess} />} />
+                       <Route path="/register" element={<AuthForm onLoginSuccess={onLoginSuccess} />} />
+                       <Route path="/my-posts" element={<MyPostsPage onPostCreated={fetchPosts} />} />
+                       <Route path="/account" element={<AccountPage onLogout={onLogout} />} />
+                       <Route path="/posts/:postId" element={<SinglePost isAuthenticated={isAuthenticated} />} />
+                    </Routes>
                   </main>
-            <Footer />
-
-                </div>
+                  <Footer />
+              </div>
         </Router>
     );
 }
