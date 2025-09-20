@@ -19,7 +19,7 @@ function Footer() {
           {/* Colonna per i link/icone */}
           <Col md={6}>
             <a 
-              href="https://github.com/LukElvetico/
+              href="https://github.com/LukElvetico/"
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-white mx-3"
