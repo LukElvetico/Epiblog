@@ -6,6 +6,7 @@ import AccountPage from './components/Account.jsx';
 import MyPostsPage from './components/MyPosts.jsx';
 import Header from './components/Header.jsx';
 import SinglePost from './components/SinglePost.jsx';
+import footer from './components/footer.jsx';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/account" element={<AccountPage onLogout={onLogout} />} />
                 <Route path="/posts/:postId" element={<SinglePost isAuthenticated={isAuthenticated} />} />
             </Routes>
+            <footer />
         </Router>
     );
 }
