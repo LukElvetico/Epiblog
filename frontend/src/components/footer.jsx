@@ -29,7 +29,7 @@ function Footer() {
               className="text-white mx-3"
               aria-label="Contattami via Email"
             >
-              <FaEnvelope size={20} />
+    
             </a>
           </Col>
         </Row>
