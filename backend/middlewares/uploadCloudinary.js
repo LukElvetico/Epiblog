@@ -2,9 +2,8 @@ import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
-// configurazione spostata fuori per poter utilizzare
-// cloudinary anche senza multer (quando eliminiamo i file)
-cloudinary.config({
+// configurazione spostata fuori per poter utilizzare cloudinary anche senza multer (quando eliminiamo i file)
+/*cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
@@ -13,7 +12,7 @@ cloudinary.config({
 const storageCloudinary = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: 'epicode2025',
+        folder: 'cartellaaccount',
         // cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
         // api_key: process.env.CLOUDINARY_API_KEY,
         // api_secret: process.env.CLOUDINARY_API_SECRET,
