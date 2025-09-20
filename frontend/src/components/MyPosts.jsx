@@ -10,8 +10,7 @@ function MyPosts({ onPostCreated }) {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
-    // Definisci la BASE_URL una sola volta per chiarezza
-    const BASE_URL = import.meta.env.VITE_API_URL; // Questo sarà https://epiblog-4y3x.onrender.com
+    const BASE_URL = import.meta.env.VITE_API_URL; 
 
     const fetchMyPosts = async () => {
         setLoadingPosts(true);
@@ -25,7 +24,7 @@ function MyPosts({ onPostCreated }) {
             }
             
             
-            const response = await fetch(`${BASE_URL}/api/v1/recipes/my-posts`, { // <--- CORREZIONE QUI
+            const response = await fetch(`${BASE_URL}/api/v1/recipes/my-posts`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
@@ -58,7 +57,7 @@ function MyPosts({ onPostCreated }) {
 
         try {
            
-            const response = await fetch(`${BASE_URL}/api/v1/recipes`, { // <--- CORREZIONE QUI
+            const response = await fetch(`${BASE_URL}/api/v1/recipes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
