@@ -10,6 +10,9 @@ function MyPosts({ onPostCreated }) {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
+    // Definisci la BASE_URL una sola volta per chiarezza
+    const BASE_URL = import.meta.env.VITE_API_URL; // Questo sarà https://epiblog-4y3x.onrender.com
+
     const fetchMyPosts = async () => {
         setLoadingPosts(true);
         setError(null);
@@ -20,9 +23,12 @@ function MyPosts({ onPostCreated }) {
                 setLoadingPosts(false);
                 return;
             }
-            const response = await fetch('${import.meta.env.VITE_API_URL}/api/v1/recipes/my-posts', {
+            
+            
+            const response = await fetch(`${BASE_URL}/api/v1/recipes/my-posts`, { // <--- CORREZIONE QUI
                 headers: { 'Authorization': `Bearer ${token}` }
             });
+            
             if (!response.ok) {
                 throw new Error('Impossibile caricare i tuoi post.');
             }
@@ -51,7 +57,8 @@ function MyPosts({ onPostCreated }) {
         }
 
         try {
-            const response = await fetch('http://localhost:4000/api/v1/recipes', {
+           
+            const response = await fetch(`${BASE_URL}/api/v1/recipes`, { // <--- CORREZIONE QUI
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,10 +94,12 @@ function MyPosts({ onPostCreated }) {
 
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:4000/api/v1/recipes/${postId}`, {
+            // CORREZIONE 3: Sostituito localhost:4000 con la variabile d'ambiente
+            const response = await fetch(`${BASE_URL}/api/v1/recipes/${postId}`, { // <--- CORREZIONE QUI
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
+            
             if (!response.ok) {
                 const data = await response.json();
                 throw new Error(data.message || 'Errore nella cancellazione del post.');
