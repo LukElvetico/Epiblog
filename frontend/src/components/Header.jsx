@@ -3,23 +3,35 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Container, Navbar, Nav, Form, FormControl, Dropdown } from 'react-bootstrap';
 
 function Header({ isAuthenticated, onLogout }) {
-    // DICHIARIAMO useNavigate
     const navigate = useNavigate();
     
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
 
+    // Definisco la BASE_URL qui per chiarezza
+    const BASE_URL = import.meta.env.VITE_API_URL; // Questo sarà https://epiblog-4y3x.onrender.com
+
     useEffect(() => {
         const fetchSearchResults = async () => {
             if (searchTerm.length > 2) {
                 setIsSearching(true);
                 try {
-                    const response = await fetch(`http://localhost:4000/api/v1/recipes/search?q=${searchTerm}`);
+                    // CORREZIONE: Sostituito http://localhost:4000 con la variabile d'ambiente
+                    const response = await fetch(`${BASE_URL}/api/v1/recipes/search?q=${searchTerm}`); // <--- CORREZIONE QUI
+                    
+                    if (!response.ok) {
+                        // Leggiamo l'errore se la risposta non è OK (es. 404/500)
+                        const errorText = await response.text(); 
+                        console.error('API Search Error Response:', errorText);
+                        throw new Error(`Errore (${response.status}) durante la ricerca.`);
+                    }
+
                     const data = await response.json();
                     setSearchResults(data.data);
                 } catch (error) {
-                    console.error('Errore nella ricerca:', error);
+                    // Manteniamo la console.error ma con un messaggio più specifico
+                    console.error('Errore nella ricerca:', error.message); 
                     setSearchResults([]);
                 } finally {
                     setIsSearching(false);
@@ -32,14 +44,10 @@ function Header({ isAuthenticated, onLogout }) {
 
         const debounceSearch = setTimeout(fetchSearchResults, 300); // Debounce di 300ms
         return () => clearTimeout(debounceSearch);
-    }, [searchTerm]);
+    }, [searchTerm, BASE_URL]); // Aggiunto BASE_URL come dipendenza per pulizia.
 
-    // NUOVA FUNZIONE WRAPPER PER IL LOGOUT
     const handleLogout = () => {
-        // 1. Esegui la logica di logout passata da App.jsx
         onLogout();
-        
-        // 2. REINDIRIZZAMENTO ALLA HOME PAGE (/)
         navigate('/');
     };
 
@@ -93,7 +101,6 @@ function Header({ isAuthenticated, onLogout }) {
                             <>
                                 <Nav.Link as={Link} to="/my-posts">I miei Post</Nav.Link>
                                 <Nav.Link as={Link} to="/account">Account</Nav.Link>
-                                {/* COLLEGA LA NUOVA FUNZIONE WRAPPER */}
                                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                             </>
                         ) : (
