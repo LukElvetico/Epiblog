@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AuthForm from './components/AuthForm';
-import HomePage from './components/HomePage';
-import AccountPage from './components/Account';
-import MyPostsPage from './components/MyPosts';
-import Header from './components/Header';
-import SinglePost from './components/SinglePost';
+import AuthForm from './components/AuthForm.jsx';
+import HomePage from './components/HomePage.jsx';
+import AccountPage from './components/Account.jsx';
+import MyPostsPage from './components/MyPosts.jsx';
+import Header from './components/Header.jsx';
+import SinglePost from './components/SinglePost.jsx';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,7 +15,8 @@ function App() {
     const fetchPosts = async () => {
         setIsDataLoading(true);
         try {
-            const response = await fetch('http://localhost:4000/api/v1/recipes');
+          
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/recipes`);
             if (!response.ok) {
                 throw new Error('Impossibile caricare i post');
             }

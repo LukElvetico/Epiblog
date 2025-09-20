@@ -8,11 +8,21 @@ import authRouter from './routers/auth.router.js';
 import userRouter from './routers/user.router.js';
 import recipeRouter from './routers/recipe.router.js';
 
+// 🛑 1. DEFINIZIONE DELL'ORIGINE (Frontend Vercel)
+// Se stai usando un ambiente di staging, potresti voler usare process.env.FRONTEND_URL
+const allowedOrigin = 'https://epiblog-flame.vercel.app'; 
+
 const port = process.env.PORT;
 
 const server = express();
 
-server.use(cors());
+// 🛑 2. CORREZIONE CORS: Configurazione per accettare l'origine Vercel e le credenziali
+server.use(cors({
+    origin: allowedOrigin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Aggiunti OPTIONS per i preflight
+    credentials: true // ESSENZIALE per inviare/ricevere cookie di sessione o token JWT
+}));
+
 server.use(morgan('tiny'));
 server.use(express.json());
 
