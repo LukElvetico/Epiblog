@@ -20,7 +20,7 @@ function MyPosts({ onPostCreated }) {
                 setLoadingPosts(false);
                 return;
             }
-            const response = await fetch('http://localhost:4000/api/v1/recipes/my-posts', {
+            const response = await fetch('${import.meta.env.VITE_API_URL}/api/v1/recipes/my-posts', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) {
