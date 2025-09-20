@@ -11,26 +11,8 @@ function Footer() {
           {/* Created by Lukas for an Epicode School Project 2025 Full Stack */}
           <Col md={6} className="mb-2 mb-md-0">
             <p className="mb-0">
-              &copy; {currentYear} EpiBlog | Progetto di sviluppo web.
+              &copy; {currentYear} EpiBlog | Created by Lukas for an Epicode School Project 2025 Full Stack.
             </p>
-          </Col>
-
-          <Col md={6}>
-            <a 
-              href="https://github.com/LukElvetico/"
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-white mx-3"
-              aria-label="GitHub Repository"
-            >
-            </a>
-            <a 
-              href="mailto:Weber.ltm@gmail.com" // Sostituisci con la tua email
-              className="text-white mx-3"
-              aria-label="Contattami via Email"
-            >
-    
-            </a>
           </Col>
         </Row>
       </Container>
