@@ -7,7 +7,7 @@ function AuthForm({ onLoginSuccess }) {
    const [password, setPassword] = useState('');
    const [firstName, setFirstName] = useState('');
  
- // STATO PER I MESSAGGI DI FEEDBACK
+
  const [statusMessage, setStatusMessage] = useState(null); 
  const [isSuccess, setIsSuccess] = useState(false);
 
@@ -20,12 +20,12 @@ function AuthForm({ onLoginSuccess }) {
   setStatusMessage(null); 
   setIsSuccess(false);
 
-  
+  //SE VA SU 4000 SI ROMPE, SE VA SU VITE-TUTTO-OK
   // Sostituito l'indirizzo 'http://localhost:4000' con la variabile d'ambiente di Vite
   const endpoint = isRegisterMode
    ? `${import.meta.env.VITE_API_URL}/api/v1/register`
    : `${import.meta.env.VITE_API_URL}/api/v1/login`;
-  // --- FINE CORREZIONE ---
+ 
 
   const body = isRegisterMode
    ? { firstName, email, password }
@@ -43,31 +43,25 @@ function AuthForm({ onLoginSuccess }) {
    const data = await response.json();
 
    if (!response.ok) {
-    // Se la risposta non è OK (es. 404, 409 Conflict, 401 Unauthorized)
     setStatusMessage(data.message || 'Errore di autenticazione. Verifica i dati.');
     return; 
    }
    
-   // LOGICA DI SUCCESSO
+   
    if (isRegisterMode) {
-    // REGISTRAZIONE RIUSCITA (data.message contiene 'Registrazione effettuata correttamente...')
     setStatusMessage(data.message); 
     setIsSuccess(true);
-    
-    // Reindirizza l'utente dopo il successo
     setTimeout(() => {
      navigate('/login');
     }, 3000);
 
    } else if (data.token) {
-    // LOGIN RIUSCITO
     localStorage.setItem('authToken', data.token);
     onLoginSuccess();
     navigate('/');
    }
 
   } catch (err) {
-   // Errore di rete (es. server backend spento)
    setStatusMessage('Impossibile connettersi al server. Riprova più tardi.');
   }
  };
@@ -79,14 +73,13 @@ function AuthForm({ onLoginSuccess }) {
      {isRegisterMode ? 'Registrati' : 'Accedi'}
     </h2>
     
-    {/* VISUALIZZAZIONE DEL MESSAGGIO DI STATO (Successo o Errore) */}
+    {/* MESSAGGIO DI STATO (Successo or Errore) */}
     {statusMessage && (
      <Alert variant={isSuccess ? 'success' : 'danger'}>
       {statusMessage}
      </Alert>
     )}
     
-    {/* IL FORM VIENE MOSTRATO SOLO SE NON SIAMO IN MODALITÀ REGISTRAZIONE CON MESSAGGIO DI SUCCESSO */}
     {!(isRegisterMode && isSuccess) && (
      <Form onSubmit={handleSubmit}>
       {isRegisterMode && (
