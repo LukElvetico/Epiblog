@@ -58,8 +58,7 @@ function SinglePost({ isAuthenticated }) {
             setSuccess('Commento aggiunto con successo!');
             setComment('');
             
-            const updatedResponse = await fetch(`http://localhost:4000/api/v1/recipes/${postId}`);
-            const updatedData = await updatedResponse.json();
+            const updatedResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/recipes/${postId}`);           const updatedData = await updatedResponse.json();
             setPost(updatedData);
 
         } catch (err) {
