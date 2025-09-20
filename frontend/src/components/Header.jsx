@@ -49,7 +49,7 @@ function Header({ isAuthenticated, onLogout }) {
     };
 
     return (
-        <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+        <Navbar bg="dark" variant="dark" expand="lg" className="mb-3" sticku="top">
             <Container>
                 <Navbar.Brand as={Link} to="/">EpiBlog</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
