@@ -4,13 +4,10 @@ import authentication from '../middlewares/authentication.js';
 import createHttpError from 'http-errors';
 
 const router = Router();
-
-// Ottieni tutti i post in ordine cronologico inverso
 router.get('/', async (request, response, next) => {
     try {
-        // CORREZIONE: Uso di .find({}) e .sort() per ordinare i post
         const recipes = await Recipe.find({})
-            .sort({ createdAt: -1 }) // Ordina dal più recente al più vecchio
+            .sort({ createdAt: -1 }) 
             .populate('user');
         
         response.send({
@@ -21,7 +18,7 @@ router.get('/', async (request, response, next) => {
     }
 });
 
-// Ottieni i post dell'utente loggato
+
 router.get('/my-posts', authentication, async (request, response, next) => {
     try {
         const recipes = await Recipe.find({ user: request.authUser.id }).populate('user');
@@ -31,7 +28,6 @@ router.get('/my-posts', authentication, async (request, response, next) => {
     }
 });
 
-// Rotta per la ricerca dei post (POSIZIONE CORRETTA)
 router.get('/search', async (req, res, next) => {
     try {
         const { q } = req.query;
@@ -52,7 +48,7 @@ router.get('/search', async (req, res, next) => {
     }
 });
 
-// Ottieni un singolo post per ID
+
 router.get('/:recipeId', async (request, response, next) => {
     try {
         const recipe = await Recipe.findById(request.params.recipeId)
@@ -72,7 +68,7 @@ router.get('/:recipeId', async (request, response, next) => {
     }
 });
 
-// Post per creare una nuova ricetta
+
 router.post('/', authentication, async (request, response, next) => {
     try {
         const recipe = await Recipe.create({
@@ -85,7 +81,7 @@ router.post('/', authentication, async (request, response, next) => {
     }
 });
 
-// Aggiungi un commento a un post
+
 router.post('/:recipeId/comments', authentication, async (request, response, next) => {
     try {
         const recipe = await Recipe.findById(request.params.recipeId);
@@ -111,7 +107,7 @@ router.post('/:recipeId/comments', authentication, async (request, response, nex
     }
 });
 
-// Aggiorna un post
+
 router.patch('/:recipeId', authentication, async (request, response, next) => {
     try {
         const recipeId = request.params.recipeId;
@@ -133,7 +129,6 @@ router.patch('/:recipeId', authentication, async (request, response, next) => {
     }
 });
 
-// Cancella un post
 router.delete('/:recipeId', authentication, async (request, response, next) => {
     try {
         const recipeId = request.params.recipeId;
