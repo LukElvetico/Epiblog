@@ -6,7 +6,7 @@ import AccountPage from './components/Account.jsx';
 import MyPostsPage from './components/MyPosts.jsx';
 import Header from './components/Header.jsx';
 import SinglePost from './components/SinglePost.jsx';
-import footer from './components/footer.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -50,7 +50,10 @@ function App() {
 
     return (
         <Router>
+            <div className="d-flex flex-column min-vh-100"> 
+                
             <Header isAuthenticated={isAuthenticated} onLogout={onLogout} />
+                  <main className="flex-grow-1">
             <Routes>
                 <Route path="/" element={<HomePage posts={posts} />} />
                 <Route path="/login" element={<AuthForm onLoginSuccess={onLoginSuccess} />} />
@@ -59,7 +62,10 @@ function App() {
                 <Route path="/account" element={<AccountPage onLogout={onLogout} />} />
                 <Route path="/posts/:postId" element={<SinglePost isAuthenticated={isAuthenticated} />} />
             </Routes>
-            <footer />
+                  </main>
+            <Footer />
+
+                </div>
         </Router>
     );
 }
