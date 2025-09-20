@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+/*import { model, Schema } from 'mongoose';
 
 const userSchema = new Schema({
     firstName: {
@@ -72,4 +72,4 @@ const userSchema = new Schema({
 const User = model('User', userSchema);
 // const User = model('User', userSchema, 'utenti'); // se non avete rispettato le convenzioni di nomenclatura delle collections nel database (plurale minuscolo in inglese)
 
-export default User;
+export default User;*/
