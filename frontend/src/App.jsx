@@ -6,7 +6,7 @@ import AccountPage from './components/Account.jsx';
 import MyPostsPage from './components/MyPosts.jsx';
 import Header from './components/Header.jsx';
 import SinglePost from './components/SinglePost.jsx';
-import Footer from './components/Footer.jsx';
+import Footer from './components/footer.jsx';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
