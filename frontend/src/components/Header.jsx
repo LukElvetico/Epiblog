@@ -5,12 +5,26 @@ import { Container, Navbar, Nav, Form, FormControl, Dropdown } from 'react-boots
 function Header({ isAuthenticated, onLogout }) {
     const navigate = useNavigate();
     
+    // STATO: Stato per controllare l'espansione della Navbar in mobile
+    const [isNavExpanded, setIsNavExpanded] = useState(false); 
+    
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
 
+    const BASE_URL = import.meta.env.VITE_API_URL;
 
-    const BASE_URL = import.meta.env.VITE_API_URL; //https://epiblog-4y3x.onrender.com
+    // FUNZIONE: Chiude la Navbar dopo un click (utile per la visualizzazione mobile)
+    const handleNavLinkClick = () => {
+        setIsNavExpanded(false); 
+    };
+
+    const handleLogout = () => {
+        // Chiude la Navbar anche dopo il logout
+        setIsNavExpanded(false);
+        onLogout();
+        navigate('/');
+    };
 
     useEffect(() => {
         const fetchSearchResults = async () => {
@@ -20,7 +34,7 @@ function Header({ isAuthenticated, onLogout }) {
                     const response = await fetch(`${BASE_URL}/api/v1/recipes/search?q=${searchTerm}`);
                     
                     if (!response.ok) {
-                        const errorText = await response.text(); 
+                        const errorText = await response.text(); 
                         console.error('API Search Error Response:', errorText);
                         throw new Error(`Errore (${response.status}) durante la ricerca.`);
                     }
@@ -28,7 +42,7 @@ function Header({ isAuthenticated, onLogout }) {
                     const data = await response.json();
                     setSearchResults(data.data);
                 } catch (error) {
-                    console.error('Errore nella ricerca:', error.message); 
+                    console.error('Errore nella ricerca:', error.message); 
                     setSearchResults([]);
                 } finally {
                     setIsSearching(false);
@@ -39,23 +53,30 @@ function Header({ isAuthenticated, onLogout }) {
             }
         };
 
-        const debounceSearch = setTimeout(fetchSearchResults, 300); 
+        const debounceSearch = setTimeout(fetchSearchResults, 300); 
         return () => clearTimeout(debounceSearch);
-    }, [searchTerm, BASE_URL]); 
-
-    const handleLogout = () => {
-        onLogout();
-        navigate('/');
-    };
+    }, [searchTerm, BASE_URL]); 
 
     return (
-        <Navbar bg="dark" variant="dark" expand="lg" className="mb-3" sticky="top">
+        <Navbar 
+            bg="dark" 
+            variant="dark" 
+            expand="lg" 
+            className="mb-3" 
+            sticky="top" // ✅ Corretto l'errore di battitura e fissato in alto
+            expanded={isNavExpanded} // Collega lo stato
+            onToggle={setIsNavExpanded} // Controlla lo stato quando il toggle è premuto
+        >
             <Container>
-                <Navbar.Brand as={Link} to="/">EpiBlog</Navbar.Brand>
+                {/* Navbar Brand: chiude la Navbar al click */}
+                <Navbar.Brand as={Link} to="/" onClick={handleNavLinkClick}>
+                    EpiBlog
+                </Navbar.Brand>
+                
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     
-                   
+                    {/* Search Bar */}
                     <div className="mx-auto my-2 my-lg-0 position-relative">
                         <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                             <FormControl
@@ -67,6 +88,8 @@ function Header({ isAuthenticated, onLogout }) {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </Form>
+                        
+                        {/* Risultati di Ricerca */}
                         {isSearching && searchTerm.length > 2 && (
                             <div className="position-absolute bg-white border rounded shadow mt-1 p-2 w-100" style={{ zIndex: 1000 }}>
                                 <p className="text-center text-muted m-0">Caricamento...</p>
@@ -75,11 +98,12 @@ function Header({ isAuthenticated, onLogout }) {
                         {!isSearching && searchResults.length > 0 && (
                             <div className="position-absolute bg-white border rounded shadow mt-1 w-100" style={{ zIndex: 1000 }}>
                                 {searchResults.map(post => (
-                                    <Dropdown.Item 
-                                        as={Link} 
-                                        to={`/posts/${post._id}`} 
+                                    <Dropdown.Item 
+                                        as={Link} 
+                                        to={`/posts/${post._id}`} 
                                         key={post._id}
-                                        onClick={() => setSearchTerm('')}
+                                        // Chiude la ricerca e la Navbar dopo aver cliccato un risultato
+                                        onClick={() => { setSearchTerm(''); handleNavLinkClick(); }} 
                                     >
                                         {post.name}
                                     </Dropdown.Item>
@@ -96,14 +120,16 @@ function Header({ isAuthenticated, onLogout }) {
                     <Nav>
                         {isAuthenticated ? (
                             <>
-                                <Nav.Link as={Link} to="/my-posts">I miei Post</Nav.Link>
-                                <Nav.Link as={Link} to="/account">Account</Nav.Link>
+                                {/* Nav Link: chiude la Navbar al click */}
+                                <Nav.Link as={Link} to="/my-posts" onClick={handleNavLinkClick}>I miei Post</Nav.Link>
+                                <Nav.Link as={Link} to="/account" onClick={handleNavLinkClick}>Account</Nav.Link>
                                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                             </>
                         ) : (
                             <>
-                                <Nav.Link as={Link} to="/login">Accedi</Nav.Link>
-                                <Nav.Link as={Link} to="/register">Registrati</Nav.Link>
+                                {/* Nav Link: chiude la Navbar al click */}
+                                <Nav.Link as={Link} to="/login" onClick={handleNavLinkClick}>Accedi</Nav.Link>
+                                <Nav.Link as={Link} to="/register" onClick={handleNavLinkClick}>Registrati</Nav.Link>
                             </>
                         )}
                     </Nav>
