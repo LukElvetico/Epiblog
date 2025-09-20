@@ -52,7 +52,7 @@ router.get('/', async (request, response, next) => {
     }
 });
 
-// Aggiunto per recuperare i dati dell'utente loggato
+
 router.get('/me', authentication, async (request, response, next) => {
     try {
         const user = await User.findById(request.authUser.id);
@@ -65,14 +65,12 @@ router.get('/me', authentication, async (request, response, next) => {
     }
 });
 
-// Aggiunto per aggiornare i dati dell'utente loggato
-// Aggiunto per aggiornare i dati dell'utente loggato
+
 router.patch('/me', authentication, async (request, response, next) => {
     try {
-        // 1. Definiamo i campi che l'utente PUÒ modificare
+        
         const allowedUpdates = ['firstName', 'lastName', 'email']; 
 
-        // 2. Filtriamo request.body per creare un oggetto di aggiornamento pulito
         const updates = {};
         Object.keys(request.body).forEach(key => {
             if (allowedUpdates.includes(key) && request.body[key] !== null && request.body[key] !== undefined) {
@@ -80,14 +78,13 @@ router.patch('/me', authentication, async (request, response, next) => {
             }
         });
         
-        // 3. Controlliamo se ci sono campi validi da aggiornare
         if (Object.keys(updates).length === 0) {
             return response.status(200).send({ message: "Nessun dato valido fornito per l'aggiornamento." });
         }
 
         const user = await User.findByIdAndUpdate(
             request.authUser.id,
-            updates, // 👈 USIAMO L'OGGETTO FILTRATO
+            updates,
             { new: true, runValidators: true }
         );
         
@@ -98,7 +95,6 @@ router.patch('/me', authentication, async (request, response, next) => {
         response.send(user); 
         
     } catch (error) {
-        // Migliore gestione degli errori: se è un errore di validazione Mongoose, usiamo 400 Bad Request
         if (error.name === 'ValidationError') {
              return next(createHttpError.BadRequest(error.message));
         }
@@ -107,7 +103,6 @@ router.patch('/me', authentication, async (request, response, next) => {
     }
 });
 
-// Aggiunto per cancellare l'account dell'utente loggato
 router.delete('/me', authentication, async (request, response, next) => {
     try {
         const user = await User.findByIdAndDelete(request.authUser.id);
@@ -120,8 +115,6 @@ router.delete('/me', authentication, async (request, response, next) => {
     }
 });
 
-// Ho spostato e corretto queste rotte che hai fornito in precedenza
-// Non le ho cancellate, ma ho aggiunto controlli di sicurezza
 router.get('/:userId', async (request, response, next) => {
     const userId = '' + request.params.userId;
 
