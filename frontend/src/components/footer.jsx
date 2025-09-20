@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { FaGithub, FaEnvelope } from 'react-icons/fa'; // Assumo tu abbia installato react-icons
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -16,7 +15,6 @@ function Footer() {
             </p>
           </Col>
 
-          {/* Colonna per i link/icone */}
           <Col md={6}>
             <a 
               href="https://github.com/LukElvetico/"
@@ -25,7 +23,6 @@ function Footer() {
               className="text-white mx-3"
               aria-label="GitHub Repository"
             >
-              <FaGithub size={20} />
             </a>
             <a 
               href="mailto:Weber.ltm@gmail.com" // Sostituisci con la tua email
