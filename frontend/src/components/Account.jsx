@@ -9,7 +9,6 @@ function Account({ onLogout }) {
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
 
-  // Definisco la BASE_URL qui per chiarezza, anche se non strettamente necessario
   const BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -20,14 +19,12 @@ function Account({ onLogout }) {
         return;
       }
       try {
-        // CORREZIONE 1: Sostituite le virgolette singole (') con i backtick (`)
-        const response = await fetch(`${BASE_URL}/api/v1/users/me`, { // <--- CORREZIONE QUI
+        const response = await fetch(`${BASE_URL}/api/v1/users/me`, { 
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
-        // CORREZIONE AGGIUNTA: Migliore gestione dell'errore per evitare 'Unexpected token T'
         if (!response.ok) {
-           const errorData = await response.text(); // Leggi la risposta come testo per debugging
+           const errorData = await response.text(); 
            console.error('API Error Response:', errorData); 
            throw new Error(`Errore (${response.status}) nel recupero dei dati utente.`);
         }
@@ -49,8 +46,8 @@ function Account({ onLogout }) {
     setSuccess(null);
     const token = localStorage.getItem('authToken');
     try {
-      // CORREZIONE 2: Sostituito http://localhost:4000 con la variabile d'ambiente
-      const response = await fetch(`${BASE_URL}/api/v1/users/me`, { // <--- CORREZIONE QUI
+   
+      const response = await fetch(`${BASE_URL}/api/v1/users/me`, { 
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -78,8 +75,7 @@ function Account({ onLogout }) {
     setError(null);
     const token = localStorage.getItem('authToken');
     try {
-      // CORREZIONE 3: Sostituito http://localhost:4000 con la variabile d'ambiente
-      const response = await fetch(`${BASE_URL}/api/v1/users/me`, { // <--- CORREZIONE QUI
+      const response = await fetch(`${BASE_URL}/api/v1/users/me`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
