@@ -9,19 +9,17 @@ function Header({ isAuthenticated, onLogout }) {
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
 
-    // Definisco la BASE_URL qui per chiarezza
-    const BASE_URL = import.meta.env.VITE_API_URL; // Questo sarà https://epiblog-4y3x.onrender.com
+
+    const BASE_URL = import.meta.env.VITE_API_URL; //https://epiblog-4y3x.onrender.com
 
     useEffect(() => {
         const fetchSearchResults = async () => {
             if (searchTerm.length > 2) {
                 setIsSearching(true);
                 try {
-                    // CORREZIONE: Sostituito http://localhost:4000 con la variabile d'ambiente
-                    const response = await fetch(`${BASE_URL}/api/v1/recipes/search?q=${searchTerm}`); // <--- CORREZIONE QUI
+                    const response = await fetch(`${BASE_URL}/api/v1/recipes/search?q=${searchTerm}`);
                     
                     if (!response.ok) {
-                        // Leggiamo l'errore se la risposta non è OK (es. 404/500)
                         const errorText = await response.text(); 
                         console.error('API Search Error Response:', errorText);
                         throw new Error(`Errore (${response.status}) durante la ricerca.`);
@@ -30,7 +28,6 @@ function Header({ isAuthenticated, onLogout }) {
                     const data = await response.json();
                     setSearchResults(data.data);
                 } catch (error) {
-                    // Manteniamo la console.error ma con un messaggio più specifico
                     console.error('Errore nella ricerca:', error.message); 
                     setSearchResults([]);
                 } finally {
@@ -42,9 +39,9 @@ function Header({ isAuthenticated, onLogout }) {
             }
         };
 
-        const debounceSearch = setTimeout(fetchSearchResults, 300); // Debounce di 300ms
+        const debounceSearch = setTimeout(fetchSearchResults, 300); 
         return () => clearTimeout(debounceSearch);
-    }, [searchTerm, BASE_URL]); // Aggiunto BASE_URL come dipendenza per pulizia.
+    }, [searchTerm, BASE_URL]); 
 
     const handleLogout = () => {
         onLogout();
@@ -58,7 +55,7 @@ function Header({ isAuthenticated, onLogout }) {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     
-                    {/* Barra di ricerca con anteprima */}
+                   
                     <div className="mx-auto my-2 my-lg-0 position-relative">
                         <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                             <FormControl
