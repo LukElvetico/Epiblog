@@ -9,6 +9,9 @@ function Account({ onLogout }) {
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
 
+  // Definisco la BASE_URL qui per chiarezza, anche se non strettamente necessario
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('authToken');
@@ -17,16 +20,22 @@ function Account({ onLogout }) {
         return;
       }
       try {
-        const response = await fetch('${import.meta.env.VITE_API_URL}/api/v1/users/me', {
+        // CORREZIONE 1: Sostituite le virgolette singole (') con i backtick (`)
+        const response = await fetch(`${BASE_URL}/api/v1/users/me`, { // <--- CORREZIONE QUI
           headers: { 'Authorization': `Bearer ${token}` }
         });
-        const data = await response.json();
-        if (response.ok) {
-          setEmail(data.email);
-          setFirstName(data.firstName);
-        } else {
-          throw new Error(data.message || 'Errore nel recupero dei dati utente.');
+        
+        // CORREZIONE AGGIUNTA: Migliore gestione dell'errore per evitare 'Unexpected token T'
+        if (!response.ok) {
+           const errorData = await response.text(); // Leggi la risposta come testo per debugging
+           console.error('API Error Response:', errorData); 
+           throw new Error(`Errore (${response.status}) nel recupero dei dati utente.`);
         }
+
+        const data = await response.json();
+        setEmail(data.email);
+        setFirstName(data.firstName);
+        
       } catch (err) {
         setError(err.message);
       }
@@ -40,7 +49,8 @@ function Account({ onLogout }) {
     setSuccess(null);
     const token = localStorage.getItem('authToken');
     try {
-      const response = await fetch('http://localhost:4000/api/v1/users/me', {
+      // CORREZIONE 2: Sostituito http://localhost:4000 con la variabile d'ambiente
+      const response = await fetch(`${BASE_URL}/api/v1/users/me`, { // <--- CORREZIONE QUI
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +58,9 @@ function Account({ onLogout }) {
         },
         body: JSON.stringify({ email, firstName }),
       });
+      
       const data = await response.json();
+      
       if (response.ok) {
         setSuccess('Dati aggiornati con successo!');
       } else {
@@ -66,7 +78,8 @@ function Account({ onLogout }) {
     setError(null);
     const token = localStorage.getItem('authToken');
     try {
-      const response = await fetch('http://localhost:4000/api/v1/users/me', {
+      // CORREZIONE 3: Sostituito http://localhost:4000 con la variabile d'ambiente
+      const response = await fetch(`${BASE_URL}/api/v1/users/me`, { // <--- CORREZIONE QUI
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
